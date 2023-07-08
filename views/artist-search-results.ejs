@@ -1,2 +1,22 @@
 <h1>Artist</h1>
 
+<div>
+    <h1> Artist Results</h1>
+    <div>
+      <% artists.forEach((artist) => { %>
+      <div>
+        <div>
+          <% if (artist.images[0]) { %>
+          <img src="<%= artist.images[0].url %>" alt="<%= artist.name %>" />
+          <%} else { %>
+          <p> Image not available </p>
+          <% } %>
+          <div>
+            <h5><%= artist.name %></h5>
+            <a href="/albums/<%- artist.id %>">View Albums</a>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </div>

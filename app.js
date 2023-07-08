@@ -32,16 +32,47 @@ app.get("/", (req,res) => {
 })
 
 app.get("/artist-search", async (req,res) => {
+    const artistQuery = req.query.artistName
+    // console.log(artistQuery)
 try {
-    const artist = await spotifyApi.searchArtists("Adele")
-    console.log(artist.body.artists.items)
-    res.render("artist-search-results", {artist})
+    const data = await spotifyApi.searchArtists(JSON.stringify(artistQuery))
+    const artists = data.body.artists.items
+    // console.log(artists)
+    res.render("artist-search-results", { artists })
 } catch (error) {
     console.log(error)
 }
    
 })
 
+app.get("/albums/:artistId", async (req, res,) => {
+    const { artistId } = req.params
+    // console.log(artistId);
+    try {
+        const data = await spotifyApi.getArtistAlbums(artistId)
+        const albums = data.body.items
+        // console.log(albums);
+        res.render("albums", {albums})
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+app.get("/tracks/:albumId", async (req, res) => {
+    const { albumId } = req.params
+
+    try {
+        const data = await spotifyApi.getAlbumTracks(albumId)
+        const tracks = data.body.items
+        console.log(tracks);
+        res.render("tracks", {tracks})
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 
 
 app.listen(3000, () => console.log('My Spotify project running on port 3000 🎧 🥁 🎸 🔊'))
+
+
